@@ -8,16 +8,20 @@ interface Props {
 }
 
 const ExpenseList = ({ expenses, total, onDeleteExpense }: Props) => {
+  if (expenses.length === 0) {
+    return <></>;
+  }
+
   return (
     <div>
-      <table className="table">
+      <table className="table table-bordered">
         <thead>
           <tr>
             <th key="description" scope="col">
               Description
             </th>
-            <th key="price" scope="col">
-              Price ($)
+            <th key="amount" scope="col">
+              Amount
             </th>
             <th key="category" scope="col">
               Category
@@ -29,21 +33,26 @@ const ExpenseList = ({ expenses, total, onDeleteExpense }: Props) => {
           {expenses.map((expense, index) => (
             <tr key={index}>
               <td scope="row">{expense.description}</td>
-              <td>{expense.amount}</td>
+              <td>${expense.amount.toFixed(2)}</td>
               <td>{expense.category}</td>
               <td>
-                <button onClick={() => onDeleteExpense(index)} type="button" className="btn btn-outline-danger">
+                <button
+                  onClick={() => onDeleteExpense(index)}
+                  type="button"
+                  className="btn btn-outline-danger"
+                >
                   Delete
                 </button>
               </td>
             </tr>
           ))}
-          {/* add bottom row with total */}
+        </tbody>
+        <tfoot>
           <tr key="total">
             <td scope="row">Total</td>
-            <td>{total}</td>
+            <td>${total.toFixed(2)}</td>
           </tr>
-        </tbody>
+        </tfoot>
       </table>
     </div>
   );
